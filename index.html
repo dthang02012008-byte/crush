@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lời tỏ tình nhỏ 💌</title>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-family: "Poppins", "Comic Sans MS", cursive;
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  h1 {
+    font-size: 2em;
+    margin-bottom: 10px;
+    animation: fadeIn 2s ease-in-out;
+  }
+
+  p {
+    font-size: 1.3em;
+    opacity: 0;
+    animation: fadeInUp 1s ease-in-out forwards;
+  }
+
+  button {
+    margin-top: 20px;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    background-color: #fff;
+    color: #ff4d6d;
+    border: none;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  button:hover {
+    background-color: #ff4d6d;
+    color: #fff;
+  }
+
+  .heart {
+    color: #ff3366;
+    font-size: 3em;
+    animation: beat 1s infinite;
+  }
+
+  @keyframes beat {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.3); }
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  .falling-heart {
+    position: absolute;
+    color: #ff4d6d;
+    font-size: 20px;
+    animation: fall linear forwards;
+  }
+
+  @keyframes fall {
+    0% { transform: translateY(-10%); opacity: 1; }
+    100% { transform: translateY(110vh); opacity: 0; }
+  }
+</style>
+</head>
+<body>
+  <div id="step1">
+    <div class="heart">❤️</div>
+    <h1>Em có điều muốn nói...</h1>
+    <button onclick="startConfession()">Nói đi 😳</button>
+  </div>
+
+  <div id="step2" class="hidden">
+    <p id="line1"></p>
+    <p id="line2"></p>
+    <p id="line3"></p>
+  </div>
+
+<script>
+const messages = [
+  "Thật ra em thích anh lâu rồi đó 😳",
+  "Chỉ là chưa dám nói thôi...",
+  "Nếu em giảm được 10kg, làm người yêu em nhé 😆❤️ (Em chứ không phải anh)"
+];
+
+function startConfession() {
+  document.getElementById("step1").classList.add("hidden");
+  document.getElementById("step2").classList.remove("hidden");
+
+  messages.forEach((msg, i) => {
+    setTimeout(() => typeText(`line${i+1}`, msg), 1800 * i);
+  });
+
+  // tạo tim bay ngẫu nhiên
+  setInterval(createFallingHeart, 600);
+}
+
+function typeText(id, text) {
+  const el = document.getElementById(id);
+  el.innerHTML = "";
+  let i = 0;
+  const typer = setInterval(() => {
+    if (i < text.length) {
+      el.innerHTML += text.charAt(i);
+      i++;
+    } else {
+      clearInterval(typer);
+    }
+  }, 60);
+}
+
+function createFallingHeart() {
+  const heart = document.createElement("div");
+  heart.classList.add("falling-heart");
+  heart.textContent = "💖";
+  heart.style.left = Math.random() * 100 + "vw";
+  heart.style.animationDuration = 3 + Math.random() * 3 + "s";
+  document.body.appendChild(heart);
+  setTimeout(() => heart.remove(), 6000);
+}
+</script>
+</body>
+</html>
